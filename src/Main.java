@@ -5,7 +5,6 @@ public class Main {
 
     private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
     private int[] sortedNumbers2 = new int[50000];
-    private int[] mergedList;
 
     private void BubbleSort(int[] numbers) {
         boolean flag = true;
@@ -48,10 +47,10 @@ public class Main {
         try {
             t1.join();
             t2.join();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
 
-        mergedList = Merge(sortedNumbers1, sortedNumbers2); //merge the two threads
+        int[] mergedList = Merge(sortedNumbers1, sortedNumbers2);
 
         final long endTime = System.currentTimeMillis();        //end timer
 
@@ -63,7 +62,7 @@ public class Main {
         System.out.println("Tested length: " + mergedList.length);
     }
 
-    public static int[] Merge(int[] a, int[] b) {
+    private static int[] Merge(int[] a, int[] b) {
 
         int[] answer = new int[a.length + b.length];
         int i = 0, j = 0, k = 0;

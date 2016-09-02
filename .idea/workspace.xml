@@ -28,11 +28,11 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="70" column="46" selection-start-line="70" selection-start-column="46" selection-end-line="70" selection-end-column="46" />
+            <state relative-caret-position="-138">
+              <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
               <folding>
-                <element signature="e#2536#2537#0" expanded="true" />
-                <element signature="e#2589#2590#0" expanded="true" />
+                <element signature="e#2495#2496#0" expanded="true" />
+                <element signature="e#2548#2549#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -631,7 +631,7 @@
       <option name="presentableId" value="Default" />
       <updated>1472808085201</updated>
       <workItem from="1472808090177" duration="207000" />
-      <workItem from="1472808727285" duration="5706000" />
+      <workItem from="1472808727285" duration="5749000" />
     </task>
     <task id="LOCAL-00001" summary="working program assignment 1.1">
       <created>1472810662571</created>
@@ -654,11 +654,18 @@
       <option name="project" value="LOCAL" />
       <updated>1472811913367</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="assignment 1.2&#10;">
+      <created>1472814764175</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1472814764175</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5913000" />
+    <option name="totallyTimeSpent" value="5956000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -709,7 +716,8 @@
     <MESSAGE value="working program assignment 1.1" />
     <MESSAGE value="working program assignment 1.1 W/ timer&#10;" />
     <MESSAGE value="pretty working program assignment 1.1 W/ timer&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="pretty working program assignment 1.1 W/ timer&#10;" />
+    <MESSAGE value="assignment 1.2&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="assignment 1.2&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -725,8 +733,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#2536#2537#0" expanded="true" />
-            <element signature="e#2589#2590#0" expanded="true" />
+            <element signature="e#2495#2496#0" expanded="true" />
+            <element signature="e#2548#2549#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -741,11 +749,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="70" column="46" selection-start-line="70" selection-start-column="46" selection-end-line="70" selection-end-column="46" />
+        <state relative-caret-position="-138">
+          <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
           <folding>
-            <element signature="e#2536#2537#0" expanded="true" />
-            <element signature="e#2589#2590#0" expanded="true" />
+            <element signature="e#2495#2496#0" expanded="true" />
+            <element signature="e#2548#2549#0" expanded="true" />
           </folding>
         </state>
       </provider>
