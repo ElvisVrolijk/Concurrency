@@ -1,12 +1,15 @@
+import java.util.Random;
+
 /**
  * Created by e_voe_000 on 9/2/2016.
  */
 public class Main {
 
-    private int randomNumbers;
-    int[] sortedNumbers = new int[200000] ;  //only change number here to test
 
-    private void BubbleSort(int[] numbers){
+    private int randomNumbers;
+    int[] sortedNumbers = new int[400000] ;
+
+    public void BubbleSort(int[] numbers){
         boolean flag = true;
         int temp;
 
@@ -24,24 +27,18 @@ public class Main {
         }
     }
 
-    private void AddNumbersToList(){
+    public void AddNumbersToList(){
         for (int i = 0; i < sortedNumbers.length; i++) {
-            int j = RandomInt(sortedNumbers.length)+1;
+            int j = RandomInt(25000)+1;
             sortedNumbers[i]=j;
         }
-
-        final long startTime = System.currentTimeMillis();      //start timer
         BubbleSort(sortedNumbers);
-        final long endTime = System.currentTimeMillis();        //end timer
         for (int i = 0; i < sortedNumbers.length; i++) {
             System.out.println(sortedNumbers[i]);
         }
-
-        System.out.println("Tested length: " + sortedNumbers.length );
-        System.out.println("Total execution time: " + (endTime - startTime) + " miliseconds" );
     }
 
-    private int RandomInt(int amount){
+    public int RandomInt(int amount){
         randomNumbers = (int)(Math.random() * amount);
         return randomNumbers;
     }
