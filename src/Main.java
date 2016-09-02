@@ -3,8 +3,7 @@
  */
 public class Main {
 
-    private int randomNumbers;
-    int[] sortedNumbers = new int[200000] ;  //only change number here to test
+    private int[] sortedNumbers = new int[200000] ;  //only change number here to test
 
     private void BubbleSort(int[] numbers){
         boolean flag = true;
@@ -33,8 +32,8 @@ public class Main {
         final long startTime = System.currentTimeMillis();      //start timer
         BubbleSort(sortedNumbers);
         final long endTime = System.currentTimeMillis();        //end timer
-        for (int i = 0; i < sortedNumbers.length; i++) {
-            System.out.println(sortedNumbers[i]);
+        for (int sortedNumber : sortedNumbers) {
+            System.out.println(sortedNumber);
         }
 
         System.out.println("Tested length: " + sortedNumbers.length );
@@ -42,7 +41,7 @@ public class Main {
     }
 
     private int RandomInt(int amount){
-        randomNumbers = (int)(Math.random() * amount);
+        int randomNumbers = (int) (Math.random() * amount);
         return randomNumbers;
     }
 
