@@ -4,9 +4,9 @@
 public class Main {
 
     private int randomNumbers;
-    int[] sortedNumbers = new int[25000] ;
+    int[] sortedNumbers = new int[200000] ;  //only change number here to test
 
-    public void BubbleSort(int[] numbers){
+    private void BubbleSort(int[] numbers){
         boolean flag = true;
         int temp;
 
@@ -24,18 +24,24 @@ public class Main {
         }
     }
 
-    public void AddNumbersToList(){
+    private void AddNumbersToList(){
         for (int i = 0; i < sortedNumbers.length; i++) {
-            int j = RandomInt(25000)+1;
+            int j = RandomInt(sortedNumbers.length)+1;
             sortedNumbers[i]=j;
         }
+
+        final long startTime = System.currentTimeMillis();      //start timer
         BubbleSort(sortedNumbers);
+        final long endTime = System.currentTimeMillis();        //end timer
         for (int i = 0; i < sortedNumbers.length; i++) {
             System.out.println(sortedNumbers[i]);
         }
+
+        System.out.println("Tested length: " + sortedNumbers.length );
+        System.out.println("Total execution time: " + (endTime - startTime) + " miliseconds" );
     }
 
-    public int RandomInt(int amount){
+    private int RandomInt(int amount){
         randomNumbers = (int)(Math.random() * amount);
         return randomNumbers;
     }
