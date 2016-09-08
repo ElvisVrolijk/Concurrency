@@ -57,21 +57,20 @@ public class Main {
         return answer;
     }
 
-    private void usingThread() {
-        if (list1.length > threshold) {
-            final long startTime = System.currentTimeMillis();      //start timer
+    private int[] usingThread(int[] array1, int[] array2) {
+        if (array1.length < threshold) {
 
             for (int i = 0; i < list1.length; i++) {
-                list1[i] = sortedNumbers1[i];
+                array1[i] = sortedNumbers1[i];
             }
             for (int i = (sortedNumbers1.length / 2) + 1; i < sortedNumbers1.length; i++) {
-                list2[i] = sortedNumbers1[i];
+                array2[i] = sortedNumbers1[i];
             }
 
 
-            Thread t1 = new Thread(() -> bubbleSort(list1));
+            Thread t1 = new Thread(() -> bubbleSort(array1));
 
-            Thread t2 = new Thread(() -> bubbleSort(list2));
+            Thread t2 = new Thread(() -> bubbleSort(array2));
 
             t1.start();
             t2.start();
@@ -82,19 +81,20 @@ public class Main {
             } catch (InterruptedException ignored) {
             }
 
-            sortedNumbers1 = merge(list1, list2);
+            return merge(array1, array2);
 
-            final long endTime = System.currentTimeMillis();        //end timer
-
-            for (int sortedNumber : sortedNumbers1) {
-                System.out.println(sortedNumber);
-            }
-
-            System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
-            System.out.println("Tested length: " + sortedNumbers1.length);
         } else {
-            usingThread();
+
+            int[] splitArray1 = new int[array1.length / 2];
+            int[] splitArray2 = new int[array1.length / 2];
+            usingThread(splitArray1, splitArray2);
+
+            int[] splitArray3 = new int[array2.length / 2];
+            int[] splitArray4 = new int[array2.length / 2];
+            usingThread(splitArray3, splitArray4);
         }
+
+
     }
 
     private int RandomInt(int amount) {
@@ -105,6 +105,27 @@ public class Main {
         Main main = new Main();
         main.addNumbersToList();
 
+        final long startTime = System.currentTimeMillis();      //start timer
+
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                main.usingThread(main.list1, main.list2);
+            }
+        });
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                main.usingThread(main.list1, main.list2);
+            }
+        });
+
+
+        final long endTime = System.currentTimeMillis();        //end timer
+
+        System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
+        System.out.println("Tested length: " + main.sortedNumbers1.length);
 
     }
 }
