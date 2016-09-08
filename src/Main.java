@@ -3,12 +3,10 @@
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
-    private int[] sortedNumbers2 = new int[50000];
+    private int[] sortedNumbers1 = new int[200000];  //change these two to equal the tested number
+    private int[] sortedNumbers2 = new int[200000];
 
-    //we have added the key word synchronized to this method so that when wen call it in a
-    //thread the one thread will know to finish the method before switching to another thread!
-    private synchronized void bubbleSort(int[] numbers) {
+    private  void bubbleSort(int[] numbers) {
         boolean flag = true;
         int temp;
 
