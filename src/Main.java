@@ -3,8 +3,8 @@
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[200000];  //change these two to equal the tested number
-    private int[] sortedNumbers2 = new int[200000];
+    private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
+    private int threshold = 100;
 
     private  void bubbleSort(int[] numbers) {
         boolean flag = true;
@@ -28,11 +28,6 @@ public class Main {
         for (int i = 0; i < sortedNumbers1.length; i++) {
             int j = RandomInt(sortedNumbers1.length) + 1;
             sortedNumbers1[i] = j;
-        }
-
-        for (int i = 0; i < sortedNumbers2.length; i++) {
-            int j = RandomInt(sortedNumbers2.length) + 1;
-            sortedNumbers2[i] = j;
         }
     }
 
@@ -63,9 +58,22 @@ public class Main {
 
         final long startTime = System.currentTimeMillis();      //start timer
 
-        Thread t1 = new Thread(() -> bubbleSort(sortedNumbers1));
+        int[] list1 = new int[sortedNumbers1.length / 2];
+        int[] list2 = new int[sortedNumbers1.length / 2];
 
-        Thread t2 = new Thread(() -> bubbleSort(sortedNumbers2));
+        if (sortedNumbers1.length > threshold) {
+            for (int i = 0; i < sortedNumbers1.length /2 ; i++) {
+                list1[i] = sortedNumbers1[i];
+            }
+            for (int i = (sortedNumbers1.length / 2) + 1 ; i < sortedNumbers1.length; i++) {
+                list2[i] = sortedNumbers1[i];
+            }
+        }
+
+
+        Thread t1 = new Thread(() -> bubbleSort(list1));
+
+        Thread t2 = new Thread(() -> bubbleSort(list2));
 
         t1.start();
         t2.start();
@@ -76,16 +84,16 @@ public class Main {
         } catch (InterruptedException ignored) {
         }
 
-        int[] mergedList = merge(sortedNumbers1, sortedNumbers2);
+        sortedNumbers1 = merge(list1, list2);
 
         final long endTime = System.currentTimeMillis();        //end timer
 
-        for (int sortedNumber : mergedList) {
+        for (int sortedNumber : sortedNumbers1) {
             System.out.println(sortedNumber);
         }
 
         System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
-        System.out.println("Tested length: " + mergedList.length);
+        System.out.println("Tested length: " + sortedNumbers1.length);
     }
 
     private int RandomInt(int amount) {
@@ -95,6 +103,8 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
         main.addNumbersToList();
-        main.usingThread();
+
+        
+
     }
 }
