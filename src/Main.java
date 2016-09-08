@@ -1,13 +1,16 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * Created by e_voe_000 on 9/2/2016.
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
-    private int threshold = 100;
+    private int[] sortedNumbers1 = new int[12];  //change these two to equal the tested number
+    private int threshold = 2;
 
-    private int[] list1 = new int[sortedNumbers1.length / 2];
-    private int[] list2 = new int[sortedNumbers1.length / 2];
+    private int[] list1 = Arrays.copyOfRange(sortedNumbers1, 0, sortedNumbers1.length / 2);
+    private int[] list2 = Arrays.copyOfRange(sortedNumbers1, list1.length, sortedNumbers1.length);
 
     private void bubbleSort(int[] numbers) {
         boolean flag = true;
@@ -32,6 +35,15 @@ public class Main {
             int j = RandomInt(sortedNumbers1.length) + 1;
             sortedNumbers1[i] = j;
         }
+
+        for (int i = 0; i < sortedNumbers1.length; i++) {
+            if (i < sortedNumbers1.length / 2) {
+                list1[i] = sortedNumbers1[i];
+            } else {
+                list2[i - sortedNumbers1.length / 2] = sortedNumbers1[i];
+            }
+
+        }
     }
 
     private int[] merge(int[] a, int[] b) {
@@ -54,19 +66,16 @@ public class Main {
         while (j < b.length)
             answer[k++] = b[j++];
 
+        bubbleSort(answer);
+
         return answer;
     }
 
-    private int[] usingThread(int[] array1, int[] array2) {
-        if (array1.length < threshold) {
+    private int[] usingThread(int[] array) {
+        int[] array1 = Arrays.copyOfRange(array, 0, array.length / 2);
+        int[] array2 = Arrays.copyOfRange(array, array1.length, array.length);
 
-            for (int i = 0; i < list1.length; i++) {
-                array1[i] = sortedNumbers1[i];
-            }
-            for (int i = (sortedNumbers1.length / 2) + 1; i < sortedNumbers1.length; i++) {
-                array2[i] = sortedNumbers1[i];
-            }
-
+        if (array.length < threshold) {
 
             Thread t1 = new Thread(() -> bubbleSort(array1));
 
@@ -81,20 +90,15 @@ public class Main {
             } catch (InterruptedException ignored) {
             }
 
-            return merge(array1, array2);
+            array = merge(array1, array2);
+            return array;
 
         } else {
+            usingThread(array1);
+            usingThread(array2);
 
-            int[] splitArray1 = new int[array1.length / 2];
-            int[] splitArray2 = new int[array1.length / 2];
-            usingThread(splitArray1, splitArray2);
-
-            int[] splitArray3 = new int[array2.length / 2];
-            int[] splitArray4 = new int[array2.length / 2];
-            usingThread(splitArray3, splitArray4);
         }
-
-
+        return array;
     }
 
     private int RandomInt(int amount) {
@@ -107,25 +111,30 @@ public class Main {
 
         final long startTime = System.currentTimeMillis();      //start timer
 
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                main.usingThread(main.list1, main.list2);
-            }
-        });
+        Thread thread1 = new Thread(() -> main.list1 = main.usingThread(main.list1));
 
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                main.usingThread(main.list1, main.list2);
-            }
-        });
+        Thread thread2 = new Thread(() -> main.list2 = main.usingThread(main.list2));
 
+        thread1.start();
+        thread2.start();
+
+
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException i) {
+        }
+
+        int[] mergedList = main.merge(main.list1, main.list2);
 
         final long endTime = System.currentTimeMillis();        //end timer
 
+        for (int sorted : mergedList) {
+            System.out.println(sorted);
+        }
         System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
-        System.out.println("Tested length: " + main.sortedNumbers1.length);
+        System.out.println("Tested length: " + mergedList.length);
 
     }
 }
