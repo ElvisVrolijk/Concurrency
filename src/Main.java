@@ -6,7 +6,10 @@ public class Main {
     private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
     private int threshold = 100;
 
-    private  void bubbleSort(int[] numbers) {
+    private int[] list1 = new int[sortedNumbers1.length / 2];
+    private int[] list2 = new int[sortedNumbers1.length / 2];
+
+    private void bubbleSort(int[] numbers) {
         boolean flag = true;
         int temp;
 
@@ -55,45 +58,43 @@ public class Main {
     }
 
     private void usingThread() {
+        if (list1.length > threshold) {
+            final long startTime = System.currentTimeMillis();      //start timer
 
-        final long startTime = System.currentTimeMillis();      //start timer
-
-        int[] list1 = new int[sortedNumbers1.length / 2];
-        int[] list2 = new int[sortedNumbers1.length / 2];
-
-        if (sortedNumbers1.length > threshold) {
-            for (int i = 0; i < sortedNumbers1.length /2 ; i++) {
+            for (int i = 0; i < list1.length; i++) {
                 list1[i] = sortedNumbers1[i];
             }
-            for (int i = (sortedNumbers1.length / 2) + 1 ; i < sortedNumbers1.length; i++) {
+            for (int i = (sortedNumbers1.length / 2) + 1; i < sortedNumbers1.length; i++) {
                 list2[i] = sortedNumbers1[i];
             }
+
+
+            Thread t1 = new Thread(() -> bubbleSort(list1));
+
+            Thread t2 = new Thread(() -> bubbleSort(list2));
+
+            t1.start();
+            t2.start();
+
+            try {
+                t1.join();
+                t2.join();
+            } catch (InterruptedException ignored) {
+            }
+
+            sortedNumbers1 = merge(list1, list2);
+
+            final long endTime = System.currentTimeMillis();        //end timer
+
+            for (int sortedNumber : sortedNumbers1) {
+                System.out.println(sortedNumber);
+            }
+
+            System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
+            System.out.println("Tested length: " + sortedNumbers1.length);
+        } else {
+            usingThread();
         }
-
-
-        Thread t1 = new Thread(() -> bubbleSort(list1));
-
-        Thread t2 = new Thread(() -> bubbleSort(list2));
-
-        t1.start();
-        t2.start();
-
-        try {
-            t1.join();
-            t2.join();
-        } catch (InterruptedException ignored) {
-        }
-
-        sortedNumbers1 = merge(list1, list2);
-
-        final long endTime = System.currentTimeMillis();        //end timer
-
-        for (int sortedNumber : sortedNumbers1) {
-            System.out.println(sortedNumber);
-        }
-
-        System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
-        System.out.println("Tested length: " + sortedNumbers1.length);
     }
 
     private int RandomInt(int amount) {
@@ -104,7 +105,6 @@ public class Main {
         Main main = new Main();
         main.addNumbersToList();
 
-        
 
     }
 }
