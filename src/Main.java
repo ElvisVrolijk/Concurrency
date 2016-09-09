@@ -6,8 +6,8 @@ import java.util.Arrays;
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[12];  //change these two to equal the tested number
-    private int threshold = 2;
+    private int[] sortedNumbers1 = new int[16];  //change these two to equal the tested number
+    private int threshold = 6;
 
     private int[] list1 = Arrays.copyOfRange(sortedNumbers1, 0, sortedNumbers1.length / 2);
     private int[] list2 = Arrays.copyOfRange(sortedNumbers1, list1.length, sortedNumbers1.length);
@@ -19,7 +19,7 @@ public class Main {
         while (flag) {
             flag = false; //set flag to false awaiting a possible swap
             for (int j = 0; j < numbers.length - 1; j++) {
-                if (numbers[j] < numbers[j + 1]) {
+                if (numbers[j] > numbers[j + 1]) {
 
                     temp = numbers[j];      //swap elements
                     numbers[j] = numbers[j + 1];
@@ -46,8 +46,9 @@ public class Main {
         }
     }
 
-    private int[] merge(int[] a, int[] b) {
 
+
+    private int[] merge(int[] a, int[] b) {
         int[] answer = new int[a.length + b.length];
         int i = 0, j = 0, k = 0;
 
@@ -66,20 +67,19 @@ public class Main {
         while (j < b.length)
             answer[k++] = b[j++];
 
-        bubbleSort(answer);
-
         return answer;
     }
 
+
     private int[] usingThread(int[] array) {
-        int[] array1 = Arrays.copyOfRange(array, 0, array.length / 2);
-        int[] array2 = Arrays.copyOfRange(array, array1.length, array.length);
+        System.out.println("BEGIN: " + Arrays.toString(array));
+        if (array.length > threshold) {
+            int[] array1 = Arrays.copyOfRange(array, 0, array.length / 2);
+            int[] array2 = Arrays.copyOfRange(array, array1.length, array.length);
 
-        if (array.length < threshold) {
+            Thread t1 = new Thread(() -> usingThread(array1));
 
-            Thread t1 = new Thread(() -> bubbleSort(array1));
-
-            Thread t2 = new Thread(() -> bubbleSort(array2));
+            Thread t2 = new Thread(() -> usingThread(array2));
 
             t1.start();
             t2.start();
@@ -91,13 +91,12 @@ public class Main {
             }
 
             array = merge(array1, array2);
-            return array;
+//            return array;
 
         } else {
-            usingThread(array1);
-            usingThread(array2);
-
+           bubbleSort(array);
         }
+        System.out.println("END: " + Arrays.toString(array));
         return array;
     }
 
