@@ -73,7 +73,7 @@ public class Main {
     private class Sorter implements Runnable {
         private int[] array;
 
-        public Sorter( int[] array ) {
+        Sorter(int[] array) {
             this.array = array;
         }
 
@@ -138,7 +138,7 @@ public class Main {
         try {
             thread1.join();
             thread2.join();
-        } catch (InterruptedException i) {
+        } catch (InterruptedException ignored) {
         }
 
         int[] mergedList = main.merge(main.list1, main.list2);
