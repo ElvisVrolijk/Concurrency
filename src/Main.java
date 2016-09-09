@@ -6,8 +6,8 @@ import java.util.Arrays;
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[12];  //change these two to equal the tested number
-    private int threshold = 2;
+    private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
+    private int threshold = 300;
 
     private int[] list1 = Arrays.copyOfRange(sortedNumbers1, 0, sortedNumbers1.length / 2);
     private int[] list2 = Arrays.copyOfRange(sortedNumbers1, list1.length, sortedNumbers1.length);
@@ -66,20 +66,20 @@ public class Main {
         while (j < b.length)
             answer[k++] = b[j++];
 
-        bubbleSort(answer);
+        //bubbleSort(answer);
 
         return answer;
     }
 
     private int[] usingThread(int[] array) {
-        int[] array1 = Arrays.copyOfRange(array, 0, array.length / 2);
-        int[] array2 = Arrays.copyOfRange(array, array1.length, array.length);
 
-        if (array.length < threshold) {
+        if (array.length > threshold) {
+            int[] array1 = Arrays.copyOfRange(array, 0, array.length / 2);
+            int[] array2 = Arrays.copyOfRange(array, array1.length, array.length);
 
-            Thread t1 = new Thread(() -> bubbleSort(array1));
+            Thread t1 = new Thread(() -> usingThread(array1));
 
-            Thread t2 = new Thread(() -> bubbleSort(array2));
+            Thread t2 = new Thread(() -> usingThread(array2));
 
             t1.start();
             t2.start();
@@ -90,13 +90,12 @@ public class Main {
             } catch (InterruptedException ignored) {
             }
 
-            array = merge(array1, array2);
-            return array;
+            //array = merge(array1, array2);
 
         } else {
-            usingThread(array1);
-            usingThread(array2);
-
+            //the bubble sort should happen here
+            bubbleSort(array);
+            return array;
         }
         return array;
     }
@@ -123,7 +122,7 @@ public class Main {
         try {
             thread1.join();
             thread2.join();
-        } catch (InterruptedException i) {
+        } catch (InterruptedException ignored) {
         }
 
         int[] mergedList = main.merge(main.list1, main.list2);
