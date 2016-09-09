@@ -6,8 +6,8 @@ import java.util.Arrays;
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[16];  //change these two to equal the tested number
-    private int threshold = 6;
+    private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
+    private int threshold = 400;
 
     private int[] list1 = Arrays.copyOfRange(sortedNumbers1, 0, sortedNumbers1.length / 2);
     private int[] list2 = Arrays.copyOfRange(sortedNumbers1, list1.length, sortedNumbers1.length);
@@ -70,16 +70,32 @@ public class Main {
         return answer;
     }
 
+    private class Sorter implements Runnable {
+        private int[] array;
+
+        public Sorter( int[] array ) {
+            this.array = array;
+        }
+
+        @Override
+        public void run() {
+            array = usingThread(array);
+        }
+    }
 
     private int[] usingThread(int[] array) {
-        System.out.println("BEGIN: " + Arrays.toString(array));
+        //System.out.println("BEGIN: " + Arrays.toString(array));
         if (array.length > threshold) {
             int[] array1 = Arrays.copyOfRange(array, 0, array.length / 2);
             int[] array2 = Arrays.copyOfRange(array, array1.length, array.length);
 
-            Thread t1 = new Thread(() -> usingThread(array1));
 
-            Thread t2 = new Thread(() -> usingThread(array2));
+            //Thread t1 = new Thread(() -> usingThread(array1));
+            Sorter sorter1 = new Sorter(array1);
+            Sorter sorter2 = new Sorter(array2);
+            Thread t1 = new Thread(sorter1);
+            Thread t2 = new Thread(sorter2);
+            //Thread t2 = new Thread(() -> usingThread(array2));
 
             t1.start();
             t2.start();
@@ -90,13 +106,13 @@ public class Main {
             } catch (InterruptedException ignored) {
             }
 
-            array = merge(array1, array2);
+            array = merge(sorter1.array, sorter2.array);
 //            return array;
 
         } else {
            bubbleSort(array);
         }
-        System.out.println("END: " + Arrays.toString(array));
+        //System.out.println("END: " + Arrays.toString(array));
         return array;
     }
 
