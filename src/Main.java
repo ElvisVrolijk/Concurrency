@@ -6,11 +6,11 @@ import java.util.Arrays;
  */
 public class Main {
 
-    private int[] sortedNumbers1 = new int[50000];  //change these two to equal the tested number
-    private int threshold = 400;
+    private int[] sortedNumbers1;  //change these two to equal the tested number
+    private int threshold;
 
-    private int[] list1 = Arrays.copyOfRange(sortedNumbers1, 0, sortedNumbers1.length / 2);
-    private int[] list2 = Arrays.copyOfRange(sortedNumbers1, list1.length, sortedNumbers1.length);
+    private int[] list1;
+    private int[] list2;
 
     private void bubbleSort(int[] numbers) {
         boolean flag = true;
@@ -122,34 +122,46 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.addNumbersToList();
 
-        final long startTime = System.currentTimeMillis();      //start timer
+        int[] arrayLength = new int[] {25000, 50000, 100000, 200000, 400000, 800000};
+        int[] thresholds = new int[] {500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000};
 
-        Thread thread1 = new Thread(() -> main.list1 = main.usingThread(main.list1));
+         for (int array : arrayLength) {
+             main.sortedNumbers1 = new int[array];
 
-        Thread thread2 = new Thread(() -> main.list2 = main.usingThread(main.list2));
+             main.list1 = Arrays.copyOfRange(main.sortedNumbers1, 0, main.sortedNumbers1.length / 2);
+             main.list2 = Arrays.copyOfRange(main.sortedNumbers1, main.list1.length, main.sortedNumbers1.length);
 
-        thread1.start();
-        thread2.start();
+             main.addNumbersToList();
 
+             for (int holdNumber : thresholds) {
+                 main.threshold = holdNumber;
 
+                final long startTime = System.currentTimeMillis();      //start timer
 
-        try {
-            thread1.join();
-            thread2.join();
-        } catch (InterruptedException ignored) {
+                Thread thread1 = new Thread(() -> main.list1 = main.usingThread(main.list1));
+
+                Thread thread2 = new Thread(() -> main.list2 = main.usingThread(main.list2));
+
+                thread1.start();
+                thread2.start();
+
+                try {
+                    thread1.join();
+                    thread2.join();
+                } catch (InterruptedException ignored) {
+                }
+
+                int[] mergedList = main.merge(main.list1, main.list2);
+
+                final long endTime = System.currentTimeMillis();        //end timer
+
+                System.out.println("threshold: " + main.threshold);
+                System.out.println("length: " + mergedList.length);
+                System.out.println("time: " + (endTime - startTime) + " milliseconds");
+                System.out.println("\n");
+            }
+
         }
-
-        int[] mergedList = main.merge(main.list1, main.list2);
-
-        final long endTime = System.currentTimeMillis();        //end timer
-
-        for (int sorted : mergedList) {
-            System.out.println(sorted);
-        }
-        System.out.println("Total execution time: " + (endTime - startTime) + " milliseconds");
-        System.out.println("Tested length: " + mergedList.length);
-
     }
 }
